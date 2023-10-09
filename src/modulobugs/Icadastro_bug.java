@@ -26,14 +26,12 @@ import javax.swing.JFileChooser;
  * @author joaoflorao
  */
 public class Icadastro_bug extends javax.swing.JFrame {
-    private String filepath;
-    private JFileChooser filename;
+    private String filename;
     
     /**
      * Creates new form Ipessoa
      */
     public Icadastro_bug() {
-        this.filepath = "src/modulobugs/relatorio/bugs.csv";
         initComponents();
     }
 
@@ -54,13 +52,13 @@ public class Icadastro_bug extends javax.swing.JFrame {
         bt_cadastrar_bug = new javax.swing.JButton();
         txt_titulo_bug = new javax.swing.JTextField();
         btn_limpar_campos_bug = new javax.swing.JButton();
-        jcombo_status_bug = new javax.swing.JComboBox<>();
+        txt_status_bug = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         txt_descricao_bug = new javax.swing.JTextArea();
-        jcombo_classificacao_bug = new javax.swing.JComboBox<>();
+        txt_classificacao_bug = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         txt_passos_reproducao = new javax.swing.JTextArea();
-        btn_anexar_arquivo = new javax.swing.JButton();
+        txt_filename = new javax.swing.JButton();
         lbl_anexar_arquivo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -96,10 +94,10 @@ public class Icadastro_bug extends javax.swing.JFrame {
             }
         });
 
-        jcombo_status_bug.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aberto", "Em andamento", "Em teste", "Fechado", "Reaberto" }));
-        jcombo_status_bug.addActionListener(new java.awt.event.ActionListener() {
+        txt_status_bug.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aberto", "Em andamento", "Em teste", "Fechado", "Reaberto" }));
+        txt_status_bug.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcombo_status_bugActionPerformed(evt);
+                txt_status_bugActionPerformed(evt);
             }
         });
 
@@ -107,16 +105,16 @@ public class Icadastro_bug extends javax.swing.JFrame {
         txt_descricao_bug.setRows(5);
         jScrollPane1.setViewportView(txt_descricao_bug);
 
-        jcombo_classificacao_bug.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Não definido", "Desenvolvimento", "Ambiente", "Especificação", "Usabilidade", "Teste", "Melhoria" }));
+        txt_classificacao_bug.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Não definido", "Desenvolvimento", "Ambiente", "Especificação", "Usabilidade", "Teste", "Melhoria" }));
 
         txt_passos_reproducao.setColumns(20);
         txt_passos_reproducao.setRows(5);
         jScrollPane2.setViewportView(txt_passos_reproducao);
 
-        btn_anexar_arquivo.setText("Choose a file...");
-        btn_anexar_arquivo.addActionListener(new java.awt.event.ActionListener() {
+        txt_filename.setText("Choose a file...");
+        txt_filename.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_anexar_arquivoActionPerformed(evt);
+                txt_filenameActionPerformed(evt);
             }
         });
 
@@ -138,7 +136,7 @@ public class Icadastro_bug extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txt_titulo_bug)
-                            .addComponent(jcombo_status_bug, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txt_status_bug, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane1)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -151,8 +149,8 @@ public class Icadastro_bug extends javax.swing.JFrame {
                             .addComponent(lbl_anexar_arquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jcombo_classificacao_bug, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btn_anexar_arquivo))))
+                            .addComponent(txt_classificacao_bug, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_filename))))
                 .addContainerGap(273, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -165,7 +163,7 @@ public class Icadastro_bug extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_status_bug)
-                    .addComponent(jcombo_status_bug, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_status_bug, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lbl_descricao_bug)
@@ -176,11 +174,11 @@ public class Icadastro_bug extends javax.swing.JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_anexar_arquivo)
+                    .addComponent(txt_filename)
                     .addComponent(lbl_anexar_arquivo))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jcombo_classificacao_bug, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_classificacao_bug, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl_classificacao_bug))
                 .addGap(60, 60, 60)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -190,34 +188,30 @@ public class Icadastro_bug extends javax.swing.JFrame {
         );
 
         lbl_passos_reproducao.getAccessibleContext().setAccessibleName("Passos de reprodução:");
-        lbl_anexar_arquivo.getAccessibleContext().setAccessibleName("Anexar arquivo:");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_cadastrar_bugActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_cadastrar_bugActionPerformed
-        File directory = new File(this.filepath).getParentFile();
-        if (!directory.exists()) {
-            directory.mkdirs(); // Crie o diretório se ele não existir
-        }
         
         String titulo = txt_titulo_bug.getText();
-        String status = (String) jcombo_status_bug.getSelectedItem();
+        String status = (String) txt_status_bug.getSelectedItem();
         String descricao = txt_descricao_bug.getText();
         String reproducao = txt_passos_reproducao.getText();
-        String filename = "teste";
-        String classificacao = (String) jcombo_classificacao_bug.getSelectedItem();
+        String classificacao = (String) txt_classificacao_bug.getSelectedItem();
+        
+        if (this.filename.equals(""))
+        {
+            this.filename = "";
+        }
         
         try {
             
-            BugManager manager = new BugManager(this.filepath);
+            BugManager manager = new BugManager();
             
-            List<Bug> bugs = manager.Ler();
+            manager.CadastrarBug(titulo, status, descricao, reproducao, this.filename, classificacao);
             
-            manager.Cadastrar(bugs, titulo, status, descricao, reproducao, filename, classificacao);
-            
-            
-        } catch (IOException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(Icadastro_bug.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -233,24 +227,24 @@ public class Icadastro_bug extends javax.swing.JFrame {
         txt_titulo_bug.setText("");
         txt_passos_reproducao.setText("");
         txt_descricao_bug.setText("");
-        jcombo_status_bug.setSelectedItem("Aberto");
-        jcombo_classificacao_bug.setSelectedItem("Não definido");
+        txt_status_bug.setSelectedItem("Aberto");
+        txt_classificacao_bug.setSelectedItem("Não definido");
     }//GEN-LAST:event_btn_limpar_campos_bugActionPerformed
 
-    private void jcombo_status_bugActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcombo_status_bugActionPerformed
+    private void txt_status_bugActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_status_bugActionPerformed
         // TODO add your handling code here:
         
-    }//GEN-LAST:event_jcombo_status_bugActionPerformed
+    }//GEN-LAST:event_txt_status_bugActionPerformed
 
-    private void btn_anexar_arquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_anexar_arquivoActionPerformed
+    private void txt_filenameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_filenameActionPerformed
         // TODO add your handling code here:
         JFileChooser fileChooser = new JFileChooser();
         int returnValue = fileChooser.showOpenDialog(this);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             java.io.File selectedFile = fileChooser.getSelectedFile();
-            System.out.println(selectedFile);
+            this.filename = selectedFile.getPath();
         }
-    }//GEN-LAST:event_btn_anexar_arquivoActionPerformed
+    }//GEN-LAST:event_txt_filenameActionPerformed
 
     /**
      * @param args the command line arguments
@@ -292,20 +286,20 @@ public class Icadastro_bug extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_cadastrar_bug;
-    private javax.swing.JButton btn_anexar_arquivo;
     private javax.swing.JButton btn_limpar_campos_bug;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JComboBox<String> jcombo_classificacao_bug;
-    private javax.swing.JComboBox<String> jcombo_status_bug;
     private javax.swing.JLabel lbl_anexar_arquivo;
     private javax.swing.JLabel lbl_classificacao_bug;
     private javax.swing.JLabel lbl_descricao_bug;
     private javax.swing.JLabel lbl_passos_reproducao;
     private javax.swing.JLabel lbl_status_bug;
     private javax.swing.JLabel lbl_titulo_bug;
+    private javax.swing.JComboBox<String> txt_classificacao_bug;
     private javax.swing.JTextArea txt_descricao_bug;
+    private javax.swing.JButton txt_filename;
     private javax.swing.JTextArea txt_passos_reproducao;
+    private javax.swing.JComboBox<String> txt_status_bug;
     private javax.swing.JTextField txt_titulo_bug;
     // End of variables declaration//GEN-END:variables
 }

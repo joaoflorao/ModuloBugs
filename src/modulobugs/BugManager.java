@@ -6,6 +6,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFileChooser;
@@ -18,17 +24,14 @@ import javax.swing.JOptionPane;
 public class BugManager {
     private BufferedReader buffRead;
     private BufferedWriter buffWrite;
-    private String filepath;
     
-    public BugManager(String filepath){
-        this.filepath = filepath;
-    }
+    public BugManager(){}
 
-    public List<Bug> Ler() throws IOException 
+    public List<Bug> LerArquivo(String filepath) throws IOException 
     {
         List<Bug> bugs = new ArrayList<>();
 
-        this.buffRead = new BufferedReader(new FileReader(this.filepath));
+        this.buffRead = new BufferedReader(new FileReader(filepath));
         String row;
 
         while ((row = buffRead.readLine()) != null) 
@@ -53,161 +56,172 @@ public class BugManager {
     }
 
 
-    public void EditarBug(
-            List<Bug> bugs, 
-            int id, 
+    // Método de edição de bugs para o usuário do tipo testador. 
+    // SE o status do bug estiver "aberto".
+    public void EditarBugAberto(
+            int id,
             String titulo,
             String status,
             String descricao,
-            String reproducao) 
-            throws IOException 
+            String reproducao,
+            String filename,
+            String classificacao
+    ) throws SQLException 
     {
-        for (Bug bug : bugs) 
-        {
-            if (bug.getId() == id && bug.getStatus().equals("Aberto")) 
-            {
-                bug.setTitulo(titulo);
-                bug.setStatus(status);
-                bug.setDescricao(descricao);
-                bug.setReproducao(reproducao);
-                JOptionPane.showMessageDialog(null, 
-                        "Bug editado com sucesso.");
+        try {
+            ConnectDB db = new ConnectDB();
 
-                // Abre o arquivo para editar a linha do id informado.
-                this.buffWrite = new BufferedWriter(new FileWriter(this.filepath));
+            Connection conn = db.getConnection();
 
-                // Escreve todos os bugs atualizados no arquivo CSV.
-                for (Bug bugAtualizado : bugs) 
-                {
-                    String row = bugAtualizado.getId() + ";" 
-                            + bugAtualizado.getTitulo() + ";"
-                            + bugAtualizado.getStatus() + ";"
-                            + bugAtualizado.getDescricao() + ";" 
-                            + bugAtualizado.getReproducao() + ";"
-                            + bugAtualizado.getClassificacao() + ";";
-                    buffWrite.write(row);
-                    buffWrite.newLine();
-                }
+            Statement stmt = conn.createStatement();
 
-                buffWrite.close();
+            String sql_edit_bug_aberto = "UPDATE DBCode.tbl_bugs SET "
+                    + "titulo = '"+titulo+"', "
+                    + "status = '"+status+"', "
+                    + "descricao = '"+descricao+"', "
+                    + "reproducao = '"+reproducao+"', "
+                    + "file = '"+filename+"', "
+                    + "classificacao = '"+classificacao+"' WHERE id = '"+id+"'";
 
-                return;
-            }
-            else if (bug.getId() == id)
-            {
-                JOptionPane.showMessageDialog(null, 
-                        "Não é possível editar um bug com status: " + bug.getStatus());
-            }
-            else
-            {
-                JOptionPane.showMessageDialog(null, 
-                        "Nenhum bug encontrado com o id: " + id);
-            }
+            stmt.execute(sql_edit_bug_aberto);
+
+            JOptionPane.showMessageDialog(null, "Bug editado com sucesso!");
+        }
+        catch(SQLException e){
+            System.out.println("Erro na operação com o Banco de dados: "+e.getMessage());
+        }
+        catch(Exception e){
+            System.out.println("Erro: "+e.fillInStackTrace());
         }
     }
     
 
-    public void EditarBugAberto(
-            List<Bug> bugs, 
+    // Método de edição de bugs para os usuários dev e testador.
+    // Só será utilizado para o usuário testador SE o status do bug != "aberto"
+    public void EditarStatusClassificacao(
             int id, 
-            String titulo,
             String status,
-            String descricao,
-            String reproducao,
-            String filename,
-            String classificacao) 
-            throws IOException 
+            String classificacao
+    ) throws SQLException  
     {
-        for (Bug bug : bugs) 
-        {
-            if (bug.getId() == id && bug.getStatus().equals("Aberto")) 
-            {
-                bug.setTitulo(titulo);
-                bug.setStatus(status);
-                bug.setDescricao(descricao);
-                bug.setReproducao(reproducao);
-                bug.setFilename(filename);
-                bug.setClassificacao(classificacao);
-                
-                JOptionPane.showMessageDialog(null, 
-                        "Bug editado com sucesso.");
+        try {
+            ConnectDB db = new ConnectDB();
 
-                // Abre o arquivo para editar a linha do id informado.
-                this.buffWrite = new BufferedWriter(new FileWriter(this.filepath));
+            Connection conn = db.getConnection();
 
-                // Escreve todos os bugs atualizados no arquivo CSV.
-                for (Bug bugEdit : bugs) 
-                {
-                    String row = bug.getId() + ";" 
-                            + bugEdit.getTitulo() + ";"
-                            + bugEdit.getStatus() + ";"
-                            + bugEdit.getDescricao() + ";" 
-                            + bugEdit.getReproducao() + ";"
-                            + bugEdit.getFilename() + ";"
-                            + bugEdit.getClassificacao() + ";";
-                    buffWrite.write(row);
-                    buffWrite.newLine();
-                }
+            Statement stmt = conn.createStatement();
 
-                buffWrite.close();
+            String sql_edit_status_class = "UPDATE DBCode.tbl_bugs SET "
+                    + "status = '"+status+"', "
+                    + "classificacao = '"+classificacao+"' WHERE id = '"+id+"'";
 
-                return;
+            stmt.execute(sql_edit_status_class);
+
+            JOptionPane.showMessageDialog(null, "Bug editado com sucesso!");
+        } 
+        catch(SQLException e){
+            System.out.println("Erro na operação com o Banco de dados: "+e.getMessage());
+        }
+        catch(Exception e){
+            System.out.println("Erro: "+e.fillInStackTrace());
+        }
+    }
+    
+    // Cadastra o bug
+    public void CadastrarBug(
+        String titulo,
+        String status,
+        String descricao, 
+        String reproducao,
+        String filename,
+        String classificacao
+    ) throws SQLException
+    {
+        try {
+            ConnectDB db = new ConnectDB();
+
+            Connection conn = db.getConnection();
+
+            Statement stmt = conn.createStatement();
+
+            String sql_insert = "INSERT INTO DBCode.tbl_bugs(titulo, status, descricao, "
+                    + "reproducao, file, classificacao) VALUES('"+titulo+"', '"+status+"', "
+                    + "'"+descricao+"', '"+reproducao+"', '"+filename+"', '"+classificacao+"')";
+
+            stmt.execute(sql_insert);
+            JOptionPane.showMessageDialog(null, "Bug cadastrado com sucesso!");
+        }
+        catch(SQLException e){
+            System.out.println("Erro na operação com o Banco de dados: "+e.getMessage());
+        }
+        catch(Exception e){
+            System.out.println("Erro: "+e.fillInStackTrace());
+        }
+        
+    }
+    
+    // Exclui o bug se o status dele for "aberto"
+    public void ExcluirBug(int id) throws SQLException
+    {
+        try {
+            ConnectDB db = new ConnectDB();
+
+            Connection conn = db.getConnection();
+
+            Statement stmt = conn.createStatement();
+
+            ResultSet rs = this.ConsultarBug(id);
+
+            String status = "";
+
+            while (rs.next())
+            {   
+                status = rs.getString("status");
             }
-            else if (bug.getId() == id)
+
+            if (status.equals("Aberto"))
             {
-                JOptionPane.showMessageDialog(null, 
-                        "Não é possível editar um bug com status: " + bug.getStatus());
+                String sql_delete = "DELETE FROM DBCode.tbl_bugs WHERE id = " + id;
+
+                stmt.execute(sql_delete);
+
+                JOptionPane.showMessageDialog(null, "Bug " + id + " excluido com sucesso!");
             }
             else
             {
-                JOptionPane.showMessageDialog(null, 
-                        "Nenhum bug encontrado com o id: " + id);
+                JOptionPane.showMessageDialog(null, "Não é possível excluir o bug com o status: " + '"'+status+'"');
             }
+        }
+        catch(SQLException e){
+            System.out.println("Erro na operação com o Banco de dados: "+e.getMessage());
+        }
+        catch(Exception e){
+            System.out.println("Erro: "+e.fillInStackTrace());
         }
     }
-
-
-    public void Cadastrar(
-            List<Bug> bugs, 
-            String titulo,
-            String status,
-            String descricao, 
-            String reproducao,
-            String filename,
-            String classificacao) 
-            throws IOException 
+    
+    // Consulta o bug pelo id
+    public ResultSet ConsultarBug(int id) throws SQLException
     {
-        int newId = 1;
+        try {
+            ConnectDB db = new ConnectDB();
 
-        File arquivo = new File(this.filepath);
+            Connection conn = db.getConnection();
 
-        // Se o arquivo existe, encontra o último ID e incrementa.
-        if (arquivo.exists()) 
-        {
-            List<Bug> bugsList = Ler();
-            if (!bugsList.isEmpty()) 
-            {
-                Bug lastBug = bugsList.get(bugsList.size() - 1);
-                newId = lastBug.getId() + 1;
-            }
+            Statement stmt = conn.createStatement();
+
+            String sql_query = "SELECT * FROM DBCode.tbl_bugs WHERE id = " + id;
+
+            ResultSet rs = stmt.executeQuery(sql_query);
+            
+            return rs;
         }
-
-        Bug novoBug = new Bug(newId, titulo, status, descricao, reproducao, filename, classificacao);
-        bugs.add(novoBug);
-
-        // Abre o arquivo para adicionar a nova linha.
-        this.buffWrite = new BufferedWriter(new FileWriter(this.filepath, true));
-
-        // Escreve a nova linha no arquivo.
-        String row = newId + ";" + titulo + ";" + status + ";" 
-                + descricao + ";" + reproducao + ";" + filename + ";" + classificacao;
-        buffWrite.write(row);
-        buffWrite.newLine();
-
-        // Fecha o arquivo após a escrita.
-        buffWrite.close();
-
-        JOptionPane.showMessageDialog(null, 
-                "Bug cadastrado com sucesso.");
+        catch(SQLException e){
+            System.out.println("Erro na operação com o Banco de dados: "+e.getMessage());
+        }
+        catch(Exception e){
+            System.out.println("Erro: "+e.fillInStackTrace());
+        }
+        return null;
     }
 }

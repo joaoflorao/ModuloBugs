@@ -36,7 +36,7 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="txt_titulo_bug" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jcombo_status_bug" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txt_status_bug" alignment="0" max="32767" attributes="0"/>
                           <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
                           <Component id="jScrollPane2" min="-2" pref="320" max="-2" attributes="0"/>
                       </Group>
@@ -53,8 +53,8 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jcombo_classificacao_bug" min="-2" pref="320" max="-2" attributes="0"/>
-                          <Component id="btn_anexar_arquivo" min="-2" max="-2" attributes="0"/>
+                          <Component id="txt_classificacao_bug" min="-2" pref="320" max="-2" attributes="0"/>
+                          <Component id="txt_filename" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -73,7 +73,7 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lbl_status_bug" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jcombo_status_bug" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txt_status_bug" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -87,12 +87,12 @@
               </Group>
               <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btn_anexar_arquivo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txt_filename" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lbl_anexar_arquivo" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jcombo_classificacao_bug" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txt_classificacao_bug" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lbl_classificacao_bug" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
@@ -156,7 +156,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_limpar_campos_bugActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JComboBox" name="jcombo_status_bug">
+    <Component class="javax.swing.JComboBox" name="txt_status_bug">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="5">
@@ -169,7 +169,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jcombo_status_bugActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_status_bugActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -190,7 +190,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JComboBox" name="jcombo_classificacao_bug">
+    <Component class="javax.swing.JComboBox" name="txt_classificacao_bug">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="7">
@@ -223,12 +223,12 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="btn_anexar_arquivo">
+    <Component class="javax.swing.JButton" name="txt_filename">
       <Properties>
         <Property name="text" type="java.lang.String" value="Choose a file..."/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_anexar_arquivoActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_filenameActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lbl_anexar_arquivo">
