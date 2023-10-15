@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -200,22 +201,39 @@ public class Icadastro_bug extends javax.swing.JFrame {
         String reproducao = txt_passos_reproducao.getText();
         String classificacao = (String) txt_classificacao_bug.getSelectedItem();
         
-        if (this.filename.equals(""))
+        if (titulo.equals(""))
         {
-            this.filename = "";
+            JOptionPane.showMessageDialog(null, 
+                    "Informe um titulo!");
         }
+        else if (descricao.equals(""))
+        {
+            JOptionPane.showMessageDialog(null, 
+                    "Informe uma descricao!");
+        }
+        else if (reproducao.equals(""))
+        {
+            JOptionPane.showMessageDialog(null, 
+                    "Informe os passos de reproducao!");
+        }
+        else if (this.filename == null)
+        {
+            JOptionPane.showMessageDialog(null, 
+                    "Anexe um arquivo!");
+        }
+        else {
         
-        try {
+            try {
             
             BugManager manager = new BugManager();
             
             manager.CadastrarBug(titulo, status, descricao, reproducao, this.filename, classificacao);
             
-        } catch (SQLException ex) {
-            Logger.getLogger(Icadastro_bug.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+            } catch (SQLException ex) {
+                Logger.getLogger(Icadastro_bug.class.getName()).log(Level.SEVERE, null, ex);
+            }
         this.btn_limpar_campos_bugActionPerformed(evt);
+        }
     }//GEN-LAST:event_bt_cadastrar_bugActionPerformed
 
     private void txt_titulo_bugActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_titulo_bugActionPerformed

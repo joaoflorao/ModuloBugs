@@ -26,7 +26,7 @@ public class BugManager {
     private BufferedWriter buffWrite;
     
     public BugManager(){}
-
+    
     public List<Bug> LerArquivo(String filepath) throws IOException 
     {
         List<Bug> bugs = new ArrayList<>();
@@ -211,6 +211,39 @@ public class BugManager {
             Statement stmt = conn.createStatement();
 
             String sql_query = "SELECT * FROM DBCode.tbl_bugs WHERE id = " + id;
+
+            ResultSet rs = stmt.executeQuery(sql_query);
+            
+            return rs;
+        }
+        catch(SQLException e){
+            System.out.println("Erro na operação com o Banco de dados: "+e.getMessage());
+        }
+        catch(Exception e){
+            System.out.println("Erro: "+e.fillInStackTrace());
+        }
+        return null;
+    }
+    
+    public ResultSet ListarBugs(String status) throws SQLException
+    {
+        try {
+            ConnectDB db = new ConnectDB();
+
+            Connection conn = db.getConnection();
+
+            Statement stmt = conn.createStatement();
+            
+            String sql_query = "";
+            
+            if (status.equals("Todos"))
+            {
+                sql_query = "SELECT * FROM DBCode.tbl_bugs";
+            }
+            else
+            {
+                sql_query = "SELECT * FROM DBCode.tbl_bugs WHERE status = '"+status+"'";
+            }
 
             ResultSet rs = stmt.executeQuery(sql_query);
             
