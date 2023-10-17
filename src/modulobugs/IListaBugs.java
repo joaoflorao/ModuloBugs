@@ -85,7 +85,7 @@ public class IListaBugs extends javax.swing.JFrame {
             }
         });
 
-        teste.setText("teste");
+        teste.setText("Relatório em csv");
         teste.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 testeActionPerformed(evt);
@@ -144,6 +144,8 @@ public class IListaBugs extends javax.swing.JFrame {
         model.addColumn("Reprodução");
         model.addColumn("File");
         model.addColumn("Classificacao");
+        model.addColumn("Prioridade");
+        model.addColumn("Data Cadastro");
 
         String status = (String) txt_status.getSelectedItem();
 
@@ -163,7 +165,9 @@ public class IListaBugs extends javax.swing.JFrame {
                     rs.getString("descricao"),
                     rs.getString("reproducao"),
                     rs.getString("file"),
-                    rs.getString("classificacao")
+                    rs.getString("classificacao"),
+                    rs.getString("prioridade"),
+                    rs.getString("data_cadastro")
                 });
             }
         }
@@ -203,7 +207,9 @@ public class IListaBugs extends javax.swing.JFrame {
             while (rs.next())
             {
                 String row = rs.getString("id") + ";" + rs.getString("titulo") + ";" + rs.getString("status") + ";" 
-                + rs.getString("descricao") + ";" + rs.getString("reproducao") + ";" + rs.getString("file") + ";" + rs.getString("classificacao");
+                + rs.getString("descricao") + ";" + rs.getString("reproducao") + ";" + rs.getString("file") + ";" 
+                + rs.getString("classificacao") + ";" + rs.getString("prioridade") + ";"
+                + rs.getString("data_cadastro");
                 
                 buffWrite.write(row);
                 buffWrite.newLine();

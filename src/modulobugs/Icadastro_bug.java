@@ -16,6 +16,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,6 +63,10 @@ public class Icadastro_bug extends javax.swing.JFrame {
         txt_passos_reproducao = new javax.swing.JTextArea();
         txt_filename = new javax.swing.JButton();
         lbl_anexar_arquivo = new javax.swing.JLabel();
+        lbl_prioridade = new javax.swing.JLabel();
+        txt_prioridade = new javax.swing.JComboBox<>();
+        lbl_data = new javax.swing.JLabel();
+        txt_data = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -95,7 +101,7 @@ public class Icadastro_bug extends javax.swing.JFrame {
             }
         });
 
-        txt_status_bug.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aberto", "Em andamento", "Em teste", "Fechado", "Reaberto" }));
+        txt_status_bug.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aberto", "Em andamento", "Concluído", "Em teste", "Fechado", "Reaberto" }));
         txt_status_bug.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_status_bugActionPerformed(evt);
@@ -121,6 +127,18 @@ public class Icadastro_bug extends javax.swing.JFrame {
 
         lbl_anexar_arquivo.setText("Anexar arquivo:");
 
+        lbl_prioridade.setText("Prioridade:");
+
+        txt_prioridade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Baixa", "Média", "Alta" }));
+
+        lbl_data.setText("Data cadastro:");
+
+        txt_data.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_dataActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -129,29 +147,38 @@ public class Icadastro_bug extends javax.swing.JFrame {
                 .addGap(203, 203, 203)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lbl_passos_reproducao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lbl_descricao_bug, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lbl_status_bug, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lbl_titulo_bug, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(lbl_data, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txt_titulo_bug)
-                            .addComponent(txt_status_bug, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btn_limpar_campos_bug, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(bt_cadastrar_bug))
+                        .addComponent(txt_data))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbl_classificacao_bug, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lbl_anexar_arquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lbl_prioridade, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_classificacao_bug, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_filename))))
+                        .addComponent(txt_prioridade, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(lbl_passos_reproducao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lbl_descricao_bug, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lbl_status_bug, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lbl_titulo_bug, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGap(18, 18, 18)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txt_titulo_bug)
+                                .addComponent(txt_status_bug, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(btn_limpar_campos_bug, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(bt_cadastrar_bug))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lbl_classificacao_bug, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lbl_anexar_arquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(18, 18, 18)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txt_classificacao_bug, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txt_filename)))))
                 .addContainerGap(273, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -181,11 +208,19 @@ public class Icadastro_bug extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt_classificacao_bug, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl_classificacao_bug))
-                .addGap(60, 60, 60)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbl_prioridade)
+                    .addComponent(txt_prioridade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_data)
+                    .addComponent(txt_data, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bt_cadastrar_bug)
                     .addComponent(btn_limpar_campos_bug))
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addGap(35, 35, 35))
         );
 
         lbl_passos_reproducao.getAccessibleContext().setAccessibleName("Passos de reprodução:");
@@ -200,6 +235,7 @@ public class Icadastro_bug extends javax.swing.JFrame {
         String descricao = txt_descricao_bug.getText();
         String reproducao = txt_passos_reproducao.getText();
         String classificacao = (String) txt_classificacao_bug.getSelectedItem();
+        String prioridade = (String) txt_prioridade.getSelectedItem();
         
         if (titulo.equals(""))
         {
@@ -227,7 +263,9 @@ public class Icadastro_bug extends javax.swing.JFrame {
             
             BugManager manager = new BugManager();
             
-            manager.CadastrarBug(titulo, status, descricao, reproducao, this.filename, classificacao);
+            LocalDate dataAtual = LocalDate.now();
+            
+            manager.CadastrarBug(titulo, status, descricao, reproducao, this.filename, classificacao, prioridade, dataAtual);
             
             } catch (SQLException ex) {
                 Logger.getLogger(Icadastro_bug.class.getName()).log(Level.SEVERE, null, ex);
@@ -247,6 +285,7 @@ public class Icadastro_bug extends javax.swing.JFrame {
         txt_descricao_bug.setText("");
         txt_status_bug.setSelectedItem("Aberto");
         txt_classificacao_bug.setSelectedItem("Não definido");
+        txt_prioridade.setSelectedItem("Baixa");
     }//GEN-LAST:event_btn_limpar_campos_bugActionPerformed
 
     private void txt_status_bugActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_status_bugActionPerformed
@@ -263,6 +302,10 @@ public class Icadastro_bug extends javax.swing.JFrame {
             this.filename = selectedFile.getPath();
         }
     }//GEN-LAST:event_txt_filenameActionPerformed
+
+    private void txt_dataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_dataActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_dataActionPerformed
 
     /**
      * @param args the command line arguments
@@ -309,14 +352,18 @@ public class Icadastro_bug extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbl_anexar_arquivo;
     private javax.swing.JLabel lbl_classificacao_bug;
+    private javax.swing.JLabel lbl_data;
     private javax.swing.JLabel lbl_descricao_bug;
     private javax.swing.JLabel lbl_passos_reproducao;
+    private javax.swing.JLabel lbl_prioridade;
     private javax.swing.JLabel lbl_status_bug;
     private javax.swing.JLabel lbl_titulo_bug;
     private javax.swing.JComboBox<String> txt_classificacao_bug;
+    private javax.swing.JTextField txt_data;
     private javax.swing.JTextArea txt_descricao_bug;
     private javax.swing.JButton txt_filename;
     private javax.swing.JTextArea txt_passos_reproducao;
+    private javax.swing.JComboBox<String> txt_prioridade;
     private javax.swing.JComboBox<String> txt_status_bug;
     private javax.swing.JTextField txt_titulo_bug;
     // End of variables declaration//GEN-END:variables

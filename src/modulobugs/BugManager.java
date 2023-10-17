@@ -12,6 +12,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFileChooser;
@@ -65,7 +66,8 @@ public class BugManager {
             String descricao,
             String reproducao,
             String filename,
-            String classificacao
+            String classificacao,
+            String prioridade
     ) throws SQLException 
     {
         try {
@@ -81,7 +83,8 @@ public class BugManager {
                     + "descricao = '"+descricao+"', "
                     + "reproducao = '"+reproducao+"', "
                     + "file = '"+filename+"', "
-                    + "classificacao = '"+classificacao+"' WHERE id = '"+id+"'";
+                    + "classificacao = '"+classificacao+"',"
+                    + "prioridade = '"+prioridade+"' WHERE id = '"+id+"'";
 
             stmt.execute(sql_edit_bug_aberto);
 
@@ -134,7 +137,9 @@ public class BugManager {
         String descricao, 
         String reproducao,
         String filename,
-        String classificacao
+        String classificacao,
+        String prioridade, 
+        LocalDate data
     ) throws SQLException
     {
         try {
@@ -145,8 +150,8 @@ public class BugManager {
             Statement stmt = conn.createStatement();
 
             String sql_insert = "INSERT INTO DBCode.tbl_bugs(titulo, status, descricao, "
-                    + "reproducao, file, classificacao) VALUES('"+titulo+"', '"+status+"', "
-                    + "'"+descricao+"', '"+reproducao+"', '"+filename+"', '"+classificacao+"')";
+                    + "reproducao, file, classificacao, prioridade, data_cadastro) VALUES('"+titulo+"', '"+status+"', "
+                    + "'"+descricao+"', '"+reproducao+"', '"+filename+"', '"+classificacao+"', '"+prioridade+"', '"+data+"')";
 
             stmt.execute(sql_insert);
             JOptionPane.showMessageDialog(null, "Bug cadastrado com sucesso!");

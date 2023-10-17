@@ -124,7 +124,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="teste">
       <Properties>
-        <Property name="text" type="java.lang.String" value="teste"/>
+        <Property name="text" type="java.lang.String" value="Relat&#xf3;rio em csv"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="testeActionPerformed"/>
